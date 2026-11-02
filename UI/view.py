@@ -64,6 +64,8 @@ class View:
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
         # TODO
+        pulsante_mostra_strumenti = ft.Button("Mostra", on_click = self.controller.mostra_strumenti)
+        pulsante_cerca_per_tipo = ft.Button("Cerca", on_click=self.controller.cerca_per_tipo)
 
         # --- LAYOUT ---
         self.page.add(
@@ -83,10 +85,50 @@ class View:
 
             # Sezione 3
             # TODO
+            ft.Row(controls=[ft.Text("Strumenti", size =20),
+                             pulsante_mostra_strumenti],
+                alignment=ft.MainAxisAlignment.START,
+                spacing=20),
+
+            self.lista_strumenti,
+            ft.Divider(),
 
             # Sezione 4
             # TODO
-        )
+            ft.Text("Cerca Strumento per Tipo", size =20),
+            ft.Row(spacing=200,
+                   controls=[self.input_tipo_strumento, pulsante_cerca_per_tipo],
+                   alignment=ft.MainAxisAlignment.CENTER),
+
+            self.lista_strumenti_ricerca)
+
+    def mostra_strumenti(self, strumenti):
+        #mostra tutti gli strumenti
+
+        self.lista_strumenti.controls.clear()
+
+        if len(strumenti) == 0:
+            self.lista_strumenti.controls.append(
+                ft.Text("nessuno strumento presente"))
+        else:
+            for strumento in strumenti:
+                self.lista_strumenti.controls.append(
+                    ft.Text(str(strumento)))
+        self.page.update()
+
+    def mostra_strumenti_per_tipo(self, strumenti_per_tipo):
+    # mostra gli strumenti trovati in base al tipo cercato
+        self.lista_strumenti_ricerca.controls.clear()
+
+        if len(strumenti_per_tipo) == 0:
+            self.lista_strumenti_ricerca.controls.append(
+                ft.Text("Nessuno strumento trovato per questo tipo"))
+        else:
+            for strumento in strumenti_per_tipo:
+                self.lista_strumenti_ricerca.controls.append(
+                    ft.Text(str(strumento))
+                )
+        self.page.update()
 
     def cambia_tema(self, e):
         self.page.theme_mode = ft.ThemeMode.DARK if self.toggle_cambia_tema.value else ft.ThemeMode.LIGHT
